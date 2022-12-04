@@ -1,34 +1,9 @@
 fun main() {
     fun part1(input: List<String>): Int = input
-            .map {
-                it
-                    .split(",")
-            }
-            .foldRight(0) { cleaningAreas, containedAreas ->
-                val (cleaningAreaOne, cleaningAreaTwo) = cleaningAreas
-                    .map { cleaningArea ->
-                        cleaningArea
-                            .split("-")
-                            .map { it.toInt() }
-                    }
-                if (isFullyContained(cleaningAreaOne, cleaningAreaTwo))
-                    containedAreas + 1
-                else containedAreas
-            }
+        .contains(::fullyContains)
 
     fun part2(input: List<String>): Int = input
-        .map {
-            it.split(",")
-        }
-        .foldRight(0) { cleaningAreas, containedAreas ->
-            val (cleaningAreaOne, cleaningAreaTwo) = cleaningAreas
-                .map { cleaningArea ->
-                    cleaningArea
-                        .split("-")
-                        .map { it.toInt() }
-                }
-            containedAreas + if (isPartiallyContained(cleaningAreaOne, cleaningAreaTwo)) 0 else 1
-        }
+        .contains(::partiallyContains)
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day04_test")
@@ -41,9 +16,26 @@ fun main() {
     println(part2(input))
 }
 
-fun isFullyContained(areaOne: List<Int>, areaTwo: List<Int>): Boolean = when {
+
+fun List<String>.contains(fullyOrPartialContains: (List<Int>, List<Int>) -> Boolean) = map {
+    it
+        .split(",")
+}
+    .foldRight(0) { cleaningAreas, containedAreas ->
+        val (cleaningAreaOne, cleaningAreaTwo) = cleaningAreas
+            .map { cleaningArea ->
+                cleaningArea
+                    .split("-")
+                    .map { it.toInt() }
+            }
+        containedAreas + if (fullyOrPartialContains(cleaningAreaOne, cleaningAreaTwo))
+            1
+        else 0
+    }
+
+fun fullyContains(areaOne: List<Int>, areaTwo: List<Int>): Boolean = when {
     areaOne.first() >= areaTwo.first() && areaOne.last() <= areaTwo.last() || areaTwo.first() >= areaOne.first() && areaTwo.last() <= areaOne.last() -> true
     else -> false
 }
 
-fun isPartiallyContained(areaOne: List<Int>, areaTwo: List<Int>): Boolean = (areaOne.first() .. areaOne.last()).toSet().intersect((areaTwo.first() .. areaTwo.last()).toSet()).size == 0
+fun partiallyContains(areaOne: List<Int>, areaTwo: List<Int>): Boolean = (areaOne.first() .. areaOne.last()).toSet().intersect((areaTwo.first() .. areaTwo.last()).toSet()).size >= 1
