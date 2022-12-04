@@ -19,8 +19,8 @@ fun main() {
 
     fun part2(input: List<String>): Int = input
             .windowed(3, 3)
-            .foldRight(0) { rucksacks, prioritySum ->
-                rucksacks
+            .foldRight(0) { threeRucksacks, prioritySum ->
+                threeRucksacks
                     .map { it.toSet() }
                     .intersection()
                     .map(::itemPriority)
@@ -38,7 +38,10 @@ fun main() {
     println(part1(input))
     println(part2(input))
 }
-
-fun List<Set<Char>>.intersection() = reduce { element, acc ->
+//
+//fun List<Set<Char>>.intersection() = reduce { element, acc ->
+//    element.intersect(acc)
+//}
+private fun <A> List<Set<A>>.intersection(): Set<A> = reduce { element, acc ->
     element.intersect(acc)
 }
