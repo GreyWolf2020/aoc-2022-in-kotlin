@@ -28,8 +28,6 @@ fun main() {
 }
 
 
-private fun readInputAsString(name: String): String = File("src", "$name.txt")
-    .readText()
 
 fun findCratesOnTopOfAllStacks(
     input: String,
