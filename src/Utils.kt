@@ -18,7 +18,7 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
 
 
 /**
- * Reads the character from a given text file.
+ * Reads the characters from a given text file.
  */
 fun readInputAsString(name: String): String = File("src", "$name.txt")
     .readText()
