@@ -37,7 +37,9 @@ fun main() {
                     else -> intArrayOf(zeroCalorie, acc[highSumIndex], acc[highHighSumIndex], acc[highHighHighSumIndex])
                 }
             }
-        }.drop(1).sum()
+        }
+            .drop(1)
+            .sum()
     }
 
     // test if implementation meets criteria from the description, like:
